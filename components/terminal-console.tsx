@@ -86,6 +86,9 @@ export function TerminalConsole() {
             <p>Email: <a href={`mailto:${profile.email}`} className="terminal-link">{profile.email}</a></p>
             <p>GitHub: <a href="https://github.com/marufrayhan606" target="_blank" rel="noreferrer" className="terminal-link">github.com/marufrayhan606</a></p>
             <p>LinkedIn: <a href="https://www.linkedin.com/in/marufrayhan606" target="_blank" rel="noreferrer" className="terminal-link">linkedin.com/in/marufrayhan606</a></p>
+            <p>Facebook: <a href="https://www.facebook.com/marufrayhan606/" target="_blank" rel="noreferrer" className="terminal-link">facebook.com/marufrayhan606</a></p>
+            <p>Instagram: <a href="https://www.instagram.com/marufrayhan606/" target="_blank" rel="noreferrer" className="terminal-link">instagram.com/marufrayhan606</a></p>
+            <p>Discord: <a href="https://discord.com/users/756564894073094285" target="_blank" rel="noreferrer" className="terminal-link">discord.com/users/756564894073094285</a></p>
           </div>
         );
         break;

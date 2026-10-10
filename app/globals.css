@@ -3024,6 +3024,18 @@ svg {
   color: #0ea5e9;
 }
 
+.action-box-icon.facebook {
+  color: #1877f2;
+}
+
+.action-box-icon.instagram {
+  color: #e1306c;
+}
+
+.action-box-icon.discord {
+  color: #5865f2;
+}
+
 .action-box-info {
   flex: 1;
   display: flex;

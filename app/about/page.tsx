@@ -10,6 +10,9 @@ import {
   SparklesIcon,
   GithubIcon,
   LinkedinIcon,
+  FacebookIcon,
+  InstagramIcon,
+  DiscordIcon,
 } from "@/components/icons";
 import { GpaTrajectoryChart, SkillsRadarChart } from "@/components/interactive-charts";
 import { HolographicPortrait } from "@/components/holographic-portrait";
@@ -17,6 +20,14 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { TechMark } from "@/components/tech-mark";
 import { achievements, profile, skills } from "@/data/portfolio";
+
+const socialIcons: Record<string, React.ComponentType<any>> = {
+  GitHub: GithubIcon,
+  LinkedIn: LinkedinIcon,
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+  Discord: DiscordIcon,
+};
 
 export const metadata: Metadata = {
   title: "About — Md. Maruf Rayhan | Android & Data Science",
@@ -53,19 +64,23 @@ export default function AboutPage() {
             </p>
 
             <div className="about-connect-badges">
-              {profile.socials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-badge glass-panel"
-                >
-                  {social.label === "GitHub" ? <GithubIcon className="social-icon" /> : <LinkedinIcon className="social-icon" />}
-                  <span>{social.label}</span>
-                  <ArrowIcon className="social-arrow" />
-                </a>
-              ))}
+              {profile.socials.map((social) => {
+                const Icon = socialIcons[social.label];
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-badge glass-panel"
+                    data-cursor={social.label.toUpperCase()}
+                  >
+                    {Icon && <Icon className="social-icon" />}
+                    <span>{social.label}</span>
+                    <ArrowIcon className="social-arrow" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

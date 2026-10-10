@@ -29,6 +29,9 @@ export const profile = {
   socials: [
     { label: "GitHub", href: "https://github.com/marufrayhan606" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/marufrayhan606" },
+    { label: "Facebook", href: "https://www.facebook.com/marufrayhan606/" },
+    { label: "Instagram", href: "https://www.instagram.com/marufrayhan606/" },
+    { label: "Discord", href: "https://discord.com/users/756564894073094285" },
   ] satisfies ExternalLink[],
 };
 

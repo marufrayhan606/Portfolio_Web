@@ -1,8 +1,23 @@
 import Link from "next/link";
-import { GithubIcon, LinkedinIcon, ArrowIcon, SparklesIcon, MailIcon } from "@/components/icons";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  FacebookIcon,
+  InstagramIcon,
+  DiscordIcon,
+  ArrowIcon,
+  SparklesIcon,
+  MailIcon,
+} from "@/components/icons";
 import { profile } from "@/data/portfolio";
 
-const socialIcons = { GitHub: GithubIcon, LinkedIn: LinkedinIcon };
+const socialIcons: Record<string, React.ComponentType<any>> = {
+  GitHub: GithubIcon,
+  LinkedIn: LinkedinIcon,
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+  Discord: DiscordIcon,
+};
 
 export function SiteFooter() {
   return (

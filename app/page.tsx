@@ -8,6 +8,9 @@ import {
   ArrowRightIcon,
   GithubIcon,
   LinkedinIcon,
+  FacebookIcon,
+  InstagramIcon,
+  DiscordIcon,
   AwardIcon,
   CodeIcon,
   TrophyIcon,
@@ -29,6 +32,14 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { TechMark } from "@/components/tech-mark";
 import { profile, projects, skills, statsMetrics, achievements } from "@/data/portfolio";
+
+const socialIcons: Record<string, React.ComponentType<any>> = {
+  GitHub: GithubIcon,
+  LinkedIn: LinkedinIcon,
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+  Discord: DiscordIcon,
+};
 
 export default function Home() {
   const [projectFilter, setProjectFilter] = useState<string>("all");
@@ -103,28 +114,23 @@ export default function Home() {
 
               {/* Social and Profile Links */}
               <div className="hero-social-strip reveal-on-scroll">
-                <a
-                  href="https://github.com/marufrayhan606"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-badge glass-panel"
-                  data-cursor="GITHUB"
-                >
-                  <GithubIcon className="social-icon" />
-                  <span>GitHub</span>
-                  <ArrowIcon className="social-arrow" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/marufrayhan606"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="social-badge glass-panel"
-                  data-cursor="LINKEDIN"
-                >
-                  <LinkedinIcon className="social-icon" />
-                  <span>LinkedIn</span>
-                  <ArrowIcon className="social-arrow" />
-                </a>
+                {profile.socials.map((social) => {
+                  const Icon = socialIcons[social.label];
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="social-badge glass-panel"
+                      data-cursor={social.label.toUpperCase()}
+                    >
+                      {Icon && <Icon className="social-icon" />}
+                      <span>{social.label}</span>
+                      <ArrowIcon className="social-arrow" />
+                    </a>
+                  );
+                })}
                 <Link
                   href="/about"
                   className="social-badge glass-panel"
@@ -581,6 +587,51 @@ export default function Home() {
                 <div className="action-box-info">
                   <span className="box-label">SOURCE REPOSITORIES</span>
                   <span className="box-val">github.com/marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Facebook Card */}
+              <a
+                href="https://www.facebook.com/marufrayhan606/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <FacebookIcon className="action-box-icon facebook" />
+                <div className="action-box-info">
+                  <span className="box-label">FACEBOOK PROFILE</span>
+                  <span className="box-val">facebook.com/marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Instagram Card */}
+              <a
+                href="https://www.instagram.com/marufrayhan606/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <InstagramIcon className="action-box-icon instagram" />
+                <div className="action-box-info">
+                  <span className="box-label">INSTAGRAM</span>
+                  <span className="box-val">@marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Discord Card */}
+              <a
+                href="https://discord.com/users/756564894073094285"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <DiscordIcon className="action-box-icon discord" />
+                <div className="action-box-info">
+                  <span className="box-label">DISCORD ID</span>
+                  <span className="box-val">User ID: 756564894073094285</span>
                 </div>
                 <ArrowIcon className="box-ext-arrow" />
               </a>
