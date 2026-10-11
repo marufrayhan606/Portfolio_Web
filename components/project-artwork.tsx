@@ -3,6 +3,7 @@ import type { Project } from "@/data/portfolio";
 export function ProjectArtwork({ visual }: { visual: Project["visual"] }) {
   return (
     <div className={`project-art art-${visual}`} aria-hidden="true">
+      {/* 1. DIU Campus Schedule */}
       {visual === "schedule" && (
         <div className="schedule-board glass-panel">
           <div className="board-heading">
@@ -46,14 +47,90 @@ export function ProjectArtwork({ visual }: { visual: Project["visual"] }) {
         </div>
       )}
 
-      {visual === "sentinel" && (
+      {/* 2. NapTrap Smart Transit Geofencing */}
+      {visual === "naptrap" && (
+        <div className="utility-art glass-panel">
+          <div className="utility-top">
+            <span>NAPTRAP GEOFENCE RADAR</span>
+            <span className="dot-neon green" />
+          </div>
+          <div className="utility-radar">
+            <div className="utility-circle outer" />
+            <div className="utility-circle inner" />
+            <div className="utility-marker-pin" />
+          </div>
+          <div className="signal-pipeline-display" style={{ margin: "10px 0" }}>
+            <span className="pipe-box">GPS WORKER</span>
+            <span className="pipe-arrow">&rarr;</span>
+            <span className="pipe-box active">RADIUS &lt; 800M</span>
+            <span className="pipe-arrow">&rarr;</span>
+            <span className="pipe-box">WAKE ALARM</span>
+          </div>
+          <div className="utility-foot">
+            <small>OSMDROID · TARGET SDK 36</small>
+          </div>
+        </div>
+      )}
+
+      {/* 3. CityPharma Full-Stack */}
+      {visual === "pharma" && (
         <div className="signal-board glass-panel">
           <div className="signal-top">
-            <span className="signal-label">NEURAL DEFENSE ENGINE</span>
-            <span className="signal-secure-badge">ZERO-CLOUD ML</span>
+            <span className="signal-label">CITYPHARMA FULL-STACK</span>
+            <span className="signal-secure-badge">JWT AUTH</span>
+          </div>
+          <div className="signal-pipeline-display" style={{ margin: "14px 0" }}>
+            <span className="pipe-box">REACT 19</span>
+            <span className="pipe-arrow">&rarr;</span>
+            <span className="pipe-box active">FASTAPI REST</span>
+            <span className="pipe-arrow">&rarr;</span>
+            <span className="pipe-box">MYSQL 8.0</span>
+          </div>
+          <div className="board-rows" style={{ margin: "8px 0" }}>
+            <div className="board-row">
+              <span className="dot-neon green" />
+              <div className="board-row-text">
+                <strong>Inventory Stock Audit</strong>
+                <small>Sub-20ms latency · OpenAPI docs</small>
+              </div>
+              <span className="row-code">200 OK</span>
+            </div>
+          </div>
+          <div className="signal-footer">
+            <span>ROLE: MANAGER &amp; STAFF</span>
+            <span className="signal-shield-ok">SQLAlchemy ORM</span>
+          </div>
+        </div>
+      )}
+
+      {/* 4. CivicFeed */}
+      {visual === "civic" && (
+        <div className="sync-art glass-panel">
+          <div className="sync-top">
+            <span>CIVICFEED COMMUNITY HUB</span>
+            <span className="sync-pulse-dot" />
+          </div>
+          <div className="sync-mesh-view">
+            <div className="sync-center-hub">FIREBASE</div>
+            <div className="sync-peer-node p1">ZONE 1</div>
+            <div className="sync-peer-node p2">ZONE 2</div>
+            <div className="sync-peer-node p3">ZONE 3</div>
+          </div>
+          <div className="sync-foot">
+            <small>REAL-TIME MUNICIPAL RESOLUTIONS</small>
+          </div>
+        </div>
+      )}
+
+      {/* 5. TrafficFlow EDQN Research Paper */}
+      {visual === "traffic" && (
+        <div className="signal-board glass-panel">
+          <div className="signal-top">
+            <span className="signal-label">TRAFFICFLOW EDQN RESEARCH</span>
+            <span className="signal-secure-badge">DUELING DQN</span>
           </div>
           <div className="signal-wave-grid">
-            {[40, 75, 95, 30, 85, 100, 45, 90, 60, 80, 100, 35, 70, 90, 50, 85].map((h, i) => (
+            {[45, 80, 100, 35, 90, 65, 85, 100, 50, 75, 95, 40, 85, 100, 60, 90].map((h, i) => (
               <span
                 key={i}
                 className="wave-bar"
@@ -62,135 +139,104 @@ export function ProjectArtwork({ visual }: { visual: Project["visual"] }) {
             ))}
           </div>
           <div className="signal-pipeline-display">
-            <span className="pipe-box">SMS STREAM</span>
+            <span className="pipe-box">12-CH STATE</span>
             <span className="pipe-arrow">&rarr;</span>
-            <span className="pipe-box active">ONNX INFERENCE</span>
+            <span className="pipe-box active">V(s) + A(s,a)</span>
             <span className="pipe-arrow">&rarr;</span>
-            <span className="pipe-box danger">FRAUD QUARANTINE</span>
+            <span className="pipe-box">Q-ACTION</span>
           </div>
           <div className="signal-footer">
-            <span>INFERENCE: 3.8ms</span>
-            <span className="signal-shield-ok">99.8% PRECISION</span>
+            <span>PYTORCH 2.5 · CUDA 11.8</span>
+            <span className="signal-shield-ok">+2.3x REWARD GAIN</span>
           </div>
         </div>
       )}
 
-      {visual === "mars" && (
+      {/* 6. NDSS Data Hackathon 2026 */}
+      {visual === "hackathon" && (
         <div className="terrain-board glass-panel">
           <div className="terrain-top">
-            <span className="terrain-label">NASA SPACE APPS · MARSIS</span>
-            <span className="terrain-badge">RADAR SOUNDER</span>
+            <span className="terrain-label">NDSS 2026 DATA HACKATHON</span>
+            <span className="terrain-badge">6TH PLACE</span>
           </div>
           <div className="terrain-visual-mesh">
             <div className="terrain-grid-lines" />
             <div className="radar-sweep-cone" />
             <div className="terrain-contour c1" />
             <div className="terrain-contour c2" />
-            <div className="terrain-contour c3" />
             <div className="mars-beacon-dot" />
           </div>
           <div className="terrain-footer">
-            <span>CHRYSE PLANITIA · SUB-SURFACE</span>
-            <span>3.5 MHz SOUNDER</span>
+            <span>STARSHIP TELEMETRY PREDICTION</span>
+            <span>72.0% PRECISION</span>
           </div>
         </div>
       )}
 
-      {visual === "scribe" && (
+      {/* 7. Blood Bank Management System */}
+      {visual === "bloodbank" && (
+        <div className="result-art glass-panel">
+          <div className="result-top">
+            <span>BLOOD BANK AUDITING</span>
+            <span className="result-gpa-tag">JAVA 11</span>
+          </div>
+          <div className="result-bars-preview">
+            <div className="bar-col"><span style={{ height: "92%" }} /><small>A+</small></div>
+            <div className="bar-col"><span style={{ height: "78%" }} /><small>B+</small></div>
+            <div className="bar-col peak"><span style={{ height: "96%" }} /><small>O+</small></div>
+            <div className="bar-col"><span style={{ height: "65%" }} /><small>AB+</small></div>
+            <div className="bar-col"><span style={{ height: "84%" }} /><small>O-</small></div>
+          </div>
+          <div className="result-foot">
+            <small>FLATLAF MODERN UI · JFREECHART</small>
+          </div>
+        </div>
+      )}
+
+      {/* 8. Al-Quran */}
+      {visual === "quran" && (
         <div className="scribe-art glass-panel">
           <div className="scribe-top">
-            <span>AURASCRIBE · NLP ENGINE</span>
-            <span className="dot-neon violet" />
+            <span>AL-QURAN DIGITAL APP</span>
+            <span className="dot-neon green" />
           </div>
           <div className="scribe-body">
             <div className="scribe-pill-cloud">
-              <span>Tokenize</span>
-              <span>Embeddings</span>
-              <span>Attention</span>
-              <span>Synthesize</span>
+              <span>Compose M3</span>
+              <span>Media3</span>
+              <span>Room DB</span>
+              <span>Hilt DI</span>
             </div>
             <div className="scribe-waveform">
               <span className="line-flow" />
             </div>
           </div>
           <div className="scribe-foot">
-            <small>TEXT PROCESSING PIPELINE</small>
+            <small>EXOPLAYER RECITATION STREAMING</small>
           </div>
         </div>
       )}
 
-      {visual === "sync" && (
-        <div className="sync-art glass-panel">
-          <div className="sync-top">
-            <span>SYNCUP · REALTIME PEER MESH</span>
-            <span className="sync-pulse-dot" />
-          </div>
-          <div className="sync-mesh-view">
-            <div className="sync-center-hub">HUB</div>
-            <div className="sync-peer-node p1">REP 1</div>
-            <div className="sync-peer-node p2">REP 2</div>
-            <div className="sync-peer-node p3">REP 3</div>
-          </div>
-          <div className="sync-foot">
-            <small>INSTANT COHORT BROADCASTS</small>
-          </div>
-        </div>
-      )}
-
-      {visual === "result" && (
-        <div className="result-art glass-panel">
-          <div className="result-top">
-            <span>DIU PORTAL ANALYTICS</span>
-            <span className="result-gpa-tag">3.93 GPA</span>
-          </div>
-          <div className="result-bars-preview">
-            <div className="bar-col"><span style={{ height: "92%" }} /><small>F23</small></div>
-            <div className="bar-col"><span style={{ height: "88%" }} /><small>S24</small></div>
-            <div className="bar-col peak"><span style={{ height: "96%" }} /><small>F24</small></div>
-            <div className="bar-col"><span style={{ height: "90%" }} /><small>S25</small></div>
-            <div className="bar-col"><span style={{ height: "95%" }} /><small>F25</small></div>
-          </div>
-          <div className="result-foot">
-            <small>AUTHENTICATED PORTAL INGESTION</small>
-          </div>
-        </div>
-      )}
-
-      {visual === "spend" && (
+      {/* 9. FarmAssist or Default */}
+      {visual === "farmassist" && (
         <div className="spend-art glass-panel">
           <div className="spend-top">
-            <span>ONESPENDER ENCRYPTED LEDGER</span>
-            <span className="spend-currency">BDT / USD</span>
+            <span>FARMASSIST PLANNER</span>
+            <span className="spend-currency">C++ OOP</span>
           </div>
           <div className="spend-donut-sim">
             <div className="spend-circle-ring" />
             <div className="spend-stat-center">
-              <b>78%</b>
-              <small>SAVED</small>
+              <b>OOP</b>
+              <small>CLI</small>
             </div>
           </div>
           <div className="spend-foot">
-            <small>ZERO CLOUD LEAK · LOCAL DATASTORE</small>
-          </div>
-        </div>
-      )}
-
-      {visual === "utility" && (
-        <div className="utility-art glass-panel">
-          <div className="utility-top">
-            <span>NAPTRAP SMART GEOFENCE</span>
-            <span className="dot-neon cyan" />
-          </div>
-          <div className="utility-radar">
-            <div className="utility-circle outer" />
-            <div className="utility-circle inner" />
-            <div className="utility-marker-pin" />
-          </div>
-          <div className="utility-foot">
-            <small>GPS TRANSIT WAKE-UP ALARM</small>
+            <small>CROP YIELD &amp; INVENTORY CALC</small>
           </div>
         </div>
       )}
     </div>
   );
 }
+

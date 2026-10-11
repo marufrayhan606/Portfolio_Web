@@ -76,7 +76,7 @@ export function WorkContent() {
           </span>
         </h1>
         <p className="work-lede-text">
-          A comprehensive look at native Android apps, on-device machine learning safeguards, and interactive exploration platforms engineered by Md. Maruf Rayhan.
+          A comprehensive look at native Android apps, full-stack systems, and academic reinforcement learning research engineered by Md. Maruf Rayhan.
         </p>
 
         <div className="work-domain-pills">
@@ -84,9 +84,11 @@ export function WorkContent() {
           <span className="domain-pill-divider">&bull;</span>
           <span className="domain-pill">JETPACK COMPOSE</span>
           <span className="domain-pill-divider">&bull;</span>
-          <span className="domain-pill">ON-DEVICE ML</span>
+          <span className="domain-pill">FASTAPI &amp; REACT</span>
           <span className="domain-pill-divider">&bull;</span>
-          <span className="domain-pill">PYTORCH</span>
+          <span className="domain-pill">PYTORCH DRL</span>
+          <span className="domain-pill-divider">&bull;</span>
+          <span className="domain-pill">DATA SCIENCE</span>
         </div>
       </section>
 
@@ -407,7 +409,6 @@ export function WorkContent() {
               key={project.slug}
               id={project.slug}
               className="secondary-project-card glass-panel tilt-card reveal-on-scroll"
-              style={{ transitionDelay: `${idx * 0.05}s` }}
             >
               <div className="secondary-card-head">
                 <span className="secondary-cat">{project.category}</span>
@@ -423,6 +424,29 @@ export function WorkContent() {
                   {project.technology?.map((t) => (
                     <TechMark name={t} key={t} compact />
                   ))}
+                </div>
+
+                <div className="secondary-card-actions" style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedModalProject(project)}
+                    className="btn-details-trigger"
+                    style={{ fontSize: "12px", padding: "6px 12px" }}
+                  >
+                    <span>Inspect Specs</span>
+                    <ArrowIcon className="btn-arrow" />
+                  </button>
+
+                  <a
+                    href={project.githubUrl || "https://github.com/marufrayhan606"}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-github-mini"
+                    aria-label={`GitHub repository for ${project.name}`}
+                  >
+                    <GithubIcon className="stat-svg" style={{ width: 14, height: 14 }} />
+                    <span>Code</span>
+                  </a>
                 </div>
               </div>
             </div>

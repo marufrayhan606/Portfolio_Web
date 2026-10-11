@@ -101,11 +101,10 @@ export default function AboutPage() {
           </div>
 
           <div className="skills-editorial-grid">
-            {skills.map((skillGroup, idx) => (
+            {skills.map((skillGroup) => (
               <div
                 key={skillGroup.group}
                 className="skill-category-card glass-panel tilt-card reveal-on-scroll"
-                style={{ transitionDelay: `${idx * 0.06}s` }}
               >
                 <div className="skill-card-head">
                   <div>

@@ -7,6 +7,9 @@ import {
   ArrowRightIcon,
   GithubIcon,
   LinkedinIcon,
+  FacebookIcon,
+  InstagramIcon,
+  DiscordIcon,
   CodeIcon,
   TrophyIcon,
   CpuIcon,
@@ -80,7 +83,6 @@ function CertificateCardItem({
     <div
       onClick={() => onOpenDialog(cert, slideIdx)}
       className="certificate-card glass-panel tilt-card reveal-on-scroll"
-      style={{ transitionDelay: `${idx * 0.05}s` }}
       role="button"
       tabIndex={0}
       aria-haspopup="dialog"
@@ -357,7 +359,6 @@ export default function Home() {
               <div
                 key={stat.label}
                 className="stat-card-glass glass-panel tilt-card reveal-on-scroll"
-                style={{ transitionDelay: `${idx * 0.08}s` }}
               >
                 <div className="stat-card-top">
                   <span className="stat-icon-wrapper">
@@ -471,11 +472,10 @@ export default function Home() {
           </div>
 
           <div className="skills-editorial-grid">
-            {skills.slice(0, 3).map((skillGroup, idx) => (
+            {skills.slice(0, 3).map((skillGroup) => (
               <div
                 key={skillGroup.group}
                 className="skill-category-card glass-panel tilt-card reveal-on-scroll"
-                style={{ transitionDelay: `${idx * 0.06}s` }}
               >
                 <div className="skill-card-head">
                   <span className="skill-head-icon">
@@ -526,7 +526,7 @@ export default function Home() {
               <em>Click Any Project to View Case Study &amp; Specs.</em>
             </h2>
             <p className="section-subtext">
-              Hand-picked native Android platforms, privacy-focused machine learning systems, and space telemetry applications.
+              Hand-picked native Android platforms, full-stack systems, and academic reinforcement learning research.
             </p>
           </div>
 
@@ -536,8 +536,8 @@ export default function Home() {
             {[
               { id: "all", label: "All Projects" },
               { id: "android", label: "Android Native" },
-              { id: "ai", label: "AI & ML" },
-              { id: "interactive", label: "Interactive Tools" },
+              { id: "fullstack", label: "Full-Stack & Web" },
+              { id: "research", label: "Research & Hackathons" },
             ].map((f) => (
               <button
                 key={f.id}
@@ -723,11 +723,10 @@ export default function Home() {
 
           {/* Curated Grid of Other Projects */}
           <div className="curated-projects-grid">
-            {gridProjects.map((project, idx) => (
+            {gridProjects.map((project) => (
               <article
                 key={project.slug}
                 className="curated-project-card glass-panel tilt-card reveal-on-scroll"
-                style={{ transitionDelay: `${idx * 0.05}s` }}
               >
                 <div className="curated-card-head">
                   <span className="project-category-badge">{project.category}</span>
@@ -778,7 +777,7 @@ export default function Home() {
               className="toggle-expand-button glass-panel"
             >
               <CodeIcon className="btn-icon-subtle" />
-              <span>{showUtilityProjects ? "Hide Utility Applications" : "View Utility Tools (OneSpender, NapTrap)"}</span>
+              <span>{showUtilityProjects ? "Hide Desktop & Systems Software" : "View Desktop & Systems Software (Blood Bank, FarmAssist)"}</span>
               <ArrowIcon className={showUtilityProjects ? "rotate-up" : "rotate-down"} />
             </button>
           </div>
@@ -933,6 +932,51 @@ export default function Home() {
                 <div className="action-box-info">
                   <span className="box-label">SOURCE REPOSITORIES</span>
                   <span className="box-val">github.com/marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Facebook */}
+              <a
+                href="https://www.facebook.com/marufrayhan606/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <FacebookIcon className="action-box-icon facebook" />
+                <div className="action-box-info">
+                  <span className="box-label">SOCIAL COMMUNITY</span>
+                  <span className="box-val">facebook.com/marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/marufrayhan606/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <InstagramIcon className="action-box-icon instagram" />
+                <div className="action-box-info">
+                  <span className="box-label">PHOTOGRAPHY &amp; VISUALS</span>
+                  <span className="box-val">@marufrayhan606</span>
+                </div>
+                <ArrowIcon className="box-ext-arrow" />
+              </a>
+
+              {/* Discord */}
+              <a
+                href="https://discord.com/users/756564894073094285"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-action-box glass-panel link-box"
+              >
+                <DiscordIcon className="action-box-icon discord" />
+                <div className="action-box-info">
+                  <span className="box-label">DIRECT MESSAGING</span>
+                  <span className="box-val">marufrayhan (Discord)</span>
                 </div>
                 <ArrowIcon className="box-ext-arrow" />
               </a>

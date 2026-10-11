@@ -360,9 +360,10 @@ export function SkillsRadarChart() {
 
 export function ProjectStackChart() {
   const domains = [
-    { name: "Android Native & Compose", count: 5, pct: 62, color: "var(--accent-emerald)" },
-    { name: "Data Science & On-Device ML", count: 2, pct: 25, color: "var(--accent-cyan)" },
-    { name: "Space Telemetry & Interactive", count: 1, pct: 13, color: "var(--accent-violet)" },
+    { name: "Android Native & Jetpack Compose", count: 3, pct: 34, color: "var(--accent-emerald)" },
+    { name: "Full-Stack & Web Applications", count: 2, pct: 22, color: "var(--accent-cyan)" },
+    { name: "AI Research & Data Science", count: 2, pct: 22, color: "var(--accent-violet)" },
+    { name: "Desktop Systems & Utilities", count: 2, pct: 22, color: "var(--accent-amber)" },
   ];
 
   return (

@@ -33,6 +33,9 @@ export function SiteEffects() {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("is-visible");
+              const el = entry.target as HTMLElement;
+              el.style.removeProperty("transition-delay");
+              el.style.removeProperty("transitionDelay");
             }
           });
         },
@@ -57,23 +60,30 @@ export function SiteEffects() {
       document.documentElement.classList.add("motion-ready");
     }
 
-    // 3. Card Mouse Spotlight & Clean 3D Motion
+    // 3. Card Mouse Spotlight & Clean Instantaneous 3D Motion
     let activeCard: HTMLElement | null = null;
+    const CARD_CONTAINER_SELECTOR = ".curated-project-card, .certificate-card, .featured-project-card-2026, .secondary-project-card, .stat-card-glass, .skill-category-card, .timeline-item-glass, .contact-action-box, .flagship-project-card, .tilt-card";
+
+    const getCardTarget = (node: EventTarget | null): HTMLElement | null => {
+      if (!(node instanceof Element)) return null;
+      return node.closest<HTMLElement>(CARD_CONTAINER_SELECTOR) || node.closest<HTMLElement>(".interactive-card, .glass-panel");
+    };
 
     const handlePointerOver = (e: PointerEvent) => {
-      const target = e.target instanceof Element ? e.target.closest<HTMLElement>(".glass-panel, .tilt-card, .interactive-card, .stat-card-glass, .skill-category-card, .featured-project-card-2026, .secondary-project-card, .timeline-item-glass, .contact-action-box") : null;
+      const target = getCardTarget(e.target);
       if (target && target !== activeCard) {
         if (activeCard) {
+          activeCard.style.transition = "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease";
           activeCard.style.removeProperty("transform");
         }
         activeCard = target;
+        activeCard.style.transitionDelay = "0s";
       }
     };
 
     const handleCardPointerMove = (e: PointerEvent) => {
       if (!activeCard) {
-        const target = e.target instanceof Element ? e.target.closest<HTMLElement>(".glass-panel, .tilt-card, .interactive-card, .stat-card-glass, .skill-category-card, .featured-project-card-2026, .secondary-project-card, .timeline-item-glass, .contact-action-box") : null;
-        if (target) activeCard = target;
+        activeCard = getCardTarget(e.target);
       }
       if (!activeCard) return;
 
@@ -89,6 +99,8 @@ export function SiteEffects() {
         const centerY = rect.height / 2;
         const rotateX = ((y - centerY) / centerY) * -5;
         const rotateY = ((x - centerX) / centerX) * 5;
+        activeCard.style.transition = "transform 0.08s ease-out, border-color 0.25s ease, box-shadow 0.25s ease";
+        activeCard.style.transitionDelay = "0s";
         activeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
       }
     };
@@ -97,6 +109,7 @@ export function SiteEffects() {
       if (activeCard) {
         const related = e.relatedTarget as Node | null;
         if (!related || !activeCard.contains(related)) {
+          activeCard.style.transition = "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease";
           activeCard.style.removeProperty("transform");
           activeCard = null;
         }

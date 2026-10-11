@@ -425,7 +425,7 @@ export function Hero3D() {
           <div className="phone-lens-notch" />
           <div className="phone-glass-widget widget-status">
             <span className="widget-dot green" />
-            <span>SENTINEL · ON-DEVICE ML</span>
+            <span>DUELING DQN · REINFORCEMENT LEARNING</span>
           </div>
           <div className="phone-glass-widget widget-headline">
             <b>DIU Campus Schedule</b>
