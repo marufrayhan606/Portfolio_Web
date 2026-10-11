@@ -57,40 +57,63 @@ export function SiteEffects() {
       document.documentElement.classList.add("motion-ready");
     }
 
-    // 3. Card Mouse Spotlight & 3D Tilt Effect
-    const handleCardTilt = (e: MouseEvent) => {
-      const cards = document.querySelectorAll<HTMLElement>(".tilt-card, .glass-panel, .featured-project-3d");
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect();
-        // Check if pointer is reasonably near or inside
-        const isInside =
-          e.clientX >= rect.left - 40 &&
-          e.clientX <= rect.right + 40 &&
-          e.clientY >= rect.top - 40 &&
-          e.clientY <= rect.bottom + 40;
+    // 3. Card Mouse Spotlight & Clean 3D Motion
+    let activeCard: HTMLElement | null = null;
 
-        if (isInside) {
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty("--mouse-x", `${x}px`);
-          card.style.setProperty("--mouse-y", `${y}px`);
-
-          if (card.classList.contains("tilt-card") && !reducedMotion) {
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -6;
-            const rotateY = ((x - centerX) / centerX) * 6;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-          }
-        } else if (card.classList.contains("tilt-card")) {
-          card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+    const handlePointerOver = (e: PointerEvent) => {
+      const target = e.target instanceof Element ? e.target.closest<HTMLElement>(".glass-panel, .tilt-card, .interactive-card, .stat-card-glass, .skill-category-card, .featured-project-card-2026, .secondary-project-card, .timeline-item-glass, .contact-action-box") : null;
+      if (target && target !== activeCard) {
+        if (activeCard) {
+          activeCard.style.removeProperty("transform");
         }
-      });
+        activeCard = target;
+      }
     };
 
-    window.addEventListener("mousemove", handleCardTilt, { passive: true });
+    const handleCardPointerMove = (e: PointerEvent) => {
+      if (!activeCard) {
+        const target = e.target instanceof Element ? e.target.closest<HTMLElement>(".glass-panel, .tilt-card, .interactive-card, .stat-card-glass, .skill-category-card, .featured-project-card-2026, .secondary-project-card, .timeline-item-glass, .contact-action-box") : null;
+        if (target) activeCard = target;
+      }
+      if (!activeCard) return;
 
-    // 4. Custom Neon Cursor
+      const rect = activeCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      activeCard.style.setProperty("--mouse-x", `${x}px`);
+      activeCard.style.setProperty("--mouse-y", `${y}px`);
+
+      if (activeCard.classList.contains("tilt-card") && !reducedMotion) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        activeCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
+      }
+    };
+
+    const handleCardPointerOut = (e: PointerEvent) => {
+      if (activeCard) {
+        const related = e.relatedTarget as Node | null;
+        if (!related || !activeCard.contains(related)) {
+          activeCard.style.removeProperty("transform");
+          activeCard = null;
+        }
+      }
+    };
+
+    window.addEventListener("pointerover", handlePointerOver, { passive: true });
+    window.addEventListener("pointermove", handleCardPointerMove, { passive: true });
+    window.addEventListener("pointerout", handleCardPointerOut, { passive: true });
+
+    // 4. Custom Neon Cursor (No double cursor, silky tracking)
+    let moveCursor: ((event: PointerEvent) => void) | undefined;
+    let onDown: (() => void) | undefined;
+    let onUp: (() => void) | undefined;
+    let onLeave: (() => void) | undefined;
+    let onEnter: (() => void) | undefined;
+
     if (finePointer && !reducedMotion) {
       const dot = document.querySelector<HTMLElement>(".cursor-dot");
       const ring = document.querySelector<HTMLElement>(".cursor-ring");
@@ -98,53 +121,64 @@ export function SiteEffects() {
       if (dot && ring) {
         document.documentElement.classList.add("custom-cursor-ready");
 
-        const moveCursor = (event: PointerEvent) => {
+        moveCursor = (event: PointerEvent) => {
           document.documentElement.classList.add("cursor-active");
           const pos = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
           dot.style.transform = pos;
           ring.style.transform = pos;
 
-          const target = event.target instanceof Element ? event.target.closest("a,button,[data-cursor]") : null;
-          document.documentElement.classList.toggle("cursor-over-link", Boolean(target));
+          const target = event.target instanceof Element ? event.target.closest("a,button,[role='button'],input,textarea,select,[data-cursor]") : null;
+          const isInput = target?.matches("input, textarea, select") || false;
+          document.documentElement.classList.toggle("cursor-over-input", isInput);
+          document.documentElement.classList.toggle("cursor-over-link", Boolean(target) && !isInput);
+
           const label = target?.getAttribute("data-cursor") ?? "";
           ring.dataset.label = label;
           document.documentElement.classList.toggle("cursor-over-special", Boolean(label));
         };
 
-        const onDown = () => document.documentElement.classList.add("cursor-pressed");
-        const onUp = () => document.documentElement.classList.remove("cursor-pressed");
-        const onLeave = () => {
+        onDown = () => document.documentElement.classList.add("cursor-pressed");
+        onUp = () => document.documentElement.classList.remove("cursor-pressed");
+        onLeave = () => {
           document.documentElement.classList.add("cursor-away");
           document.documentElement.classList.remove("cursor-active");
         };
-        const onEnter = () => document.documentElement.classList.remove("cursor-away");
+        onEnter = () => document.documentElement.classList.remove("cursor-away");
 
         window.addEventListener("pointermove", moveCursor, { passive: true });
         window.addEventListener("pointerdown", onDown, { passive: true });
         window.addEventListener("pointerup", onUp, { passive: true });
         document.addEventListener("pointerleave", onLeave);
         document.addEventListener("pointerenter", onEnter);
-
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-          window.removeEventListener("mousemove", handleCardTilt);
-          window.removeEventListener("pointermove", moveCursor);
-          window.removeEventListener("pointerdown", onDown);
-          window.removeEventListener("pointerup", onUp);
-          document.removeEventListener("pointerleave", onLeave);
-          document.removeEventListener("pointerenter", onEnter);
-          observer?.disconnect();
-          mutationObserver?.disconnect();
-          document.documentElement.classList.remove("custom-cursor-ready", "cursor-over-link", "cursor-over-special", "cursor-pressed", "cursor-away", "cursor-active", "motion-ready");
-        };
       }
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("mousemove", handleCardTilt);
+      window.removeEventListener("pointerover", handlePointerOver);
+      window.removeEventListener("pointermove", handleCardPointerMove);
+      window.removeEventListener("pointerout", handleCardPointerOut);
+      if (activeCard) {
+        activeCard.style.removeProperty("transform");
+        activeCard = null;
+      }
+      if (moveCursor) window.removeEventListener("pointermove", moveCursor);
+      if (onDown) window.removeEventListener("pointerdown", onDown);
+      if (onUp) window.removeEventListener("pointerup", onUp);
+      if (onLeave) document.removeEventListener("pointerleave", onLeave);
+      if (onEnter) document.removeEventListener("pointerenter", onEnter);
       observer?.disconnect();
       mutationObserver?.disconnect();
+      document.documentElement.classList.remove(
+        "custom-cursor-ready",
+        "cursor-over-link",
+        "cursor-over-input",
+        "cursor-over-special",
+        "cursor-pressed",
+        "cursor-away",
+        "cursor-active",
+        "motion-ready"
+      );
     };
   }, []);
 

@@ -3,26 +3,27 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CloseIcon, MenuIcon, SparklesIcon, GithubIcon, ArrowIcon } from "@/components/icons";
+import { CloseIcon, MenuIcon, GithubIcon, ArrowIcon } from "@/components/icons";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-const navLinks = [
-  { href: "/#work", label: "Projects" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#charts", label: "Analytics" },
-  { href: "/#achievements", label: "Milestones" },
-  { href: "/#terminal", label: "Console" },
-  { href: "/about", label: "About" },
+const navSections = [
+  { id: "top", href: "/#top", label: "Overview" },
+  { id: "about", href: "/#about", label: "About" },
+  { id: "skills", href: "/#skills", label: "Skills" },
+  { id: "work", href: "/#work", label: "Projects" },
+  { id: "achievements", href: "/#achievements", label: "Milestones" },
+  { id: "contact", href: "/#contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("top");
   const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      setScrolled(window.scrollY > 25);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
@@ -38,11 +39,63 @@ export function SiteHeader() {
     };
   }, []);
 
+  // IntersectionObserver to accurately track and index the active visible section
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("about-page");
+      return;
+    }
+
+    const sectionIds = ["top", "about", "skills", "work", "achievements", "contact"];
+    const observers: IntersectionObserver[] = [];
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0,
+    });
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [pathname]);
+
+  const handleNavClick = (id: string, href: string, e: React.MouseEvent) => {
+    if (pathname === "/" && id !== "about-page") {
+      e.preventDefault();
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+        setActiveSection(id);
+        window.history.pushState(null, "", `#${id}`);
+      }
+    }
+    setOpen(false);
+  };
+
   return (
     <header className={`site-header-dock ${scrolled ? "is-scrolled" : ""}`}>
       <div className="dock-glass-shell glass-panel">
         {/* Brand Identity Wordmark */}
-        <Link className="dock-wordmark" href="/" aria-label="Maruf Rayhan Home">
+        <Link
+          className="dock-wordmark"
+          href="/#top"
+          onClick={(e) => handleNavClick("top", "/#top", e)}
+          aria-label="Maruf Rayhan Home"
+        >
           <span className="dock-avatar-pill">MR</span>
           <div className="dock-brand-text">
             <span className="dock-name">MARUF RAYHAN</span>
@@ -54,21 +107,25 @@ export function SiteHeader() {
 
         {/* Desktop Navigation Links */}
         <nav className="dock-nav-links" aria-label="Main Navigation">
+          {navSections.map((link) => {
+            const isActive = pathname === "/" && activeSection === link.id;
+            return (
+              <a
+                key={link.id}
+                className={`dock-link ${isActive ? "active" : ""}`}
+                href={link.href}
+                onClick={(e) => handleNavClick(link.id, link.href, e)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           <Link
-            className={`dock-link ${pathname === "/" ? "active" : ""}`}
-            href="/#top"
+            className={`dock-link ${pathname === "/about" ? "active" : ""}`}
+            href="/about"
           >
-            Overview
+            Bio
           </Link>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              className={`dock-link ${pathname === link.href ? "active" : ""}`}
-              href={link.href}
-            >
-              {link.label}
-            </Link>
-          ))}
         </nav>
 
         {/* Action Controls */}
@@ -83,7 +140,11 @@ export function SiteHeader() {
           >
             <GithubIcon />
           </a>
-          <a href="/#contact" className="dock-contact-cta button-neon">
+          <a
+            href="/#contact"
+            onClick={(e) => handleNavClick("contact", "/#contact", e)}
+            className="dock-contact-cta"
+          >
             <span>Connect</span>
             <ArrowIcon className="cta-arrow" />
           </a>
@@ -106,29 +167,32 @@ export function SiteHeader() {
         className={`mobile-dock-drawer glass-panel ${open ? "is-open" : ""}`}
       >
         <div className="mobile-drawer-inner">
+          {navSections.map((link) => {
+            const isActive = pathname === "/" && activeSection === link.id;
+            return (
+              <a
+                key={link.id}
+                className={`mobile-nav-link ${isActive ? "active" : ""}`}
+                href={link.href}
+                onClick={(e) => handleNavClick(link.id, link.href, e)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           <Link
-            className="mobile-nav-link"
-            href="/#top"
+            className={`mobile-nav-link ${pathname === "/about" ? "active" : ""}`}
+            href="/about"
             onClick={() => setOpen(false)}
           >
-            Overview
+            Detailed Bio &amp; Academic Records &rarr;
           </Link>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              className="mobile-nav-link"
-              href={link.href}
-              onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
           <a
             className="mobile-nav-link mobile-cta"
             href="/#contact"
-            onClick={() => setOpen(false)}
+            onClick={(e) => handleNavClick("contact", "/#contact", e)}
           >
-            Contact & Inquiries &rarr;
+            Contact &amp; Inquiries &rarr;
           </a>
         </div>
       </div>

@@ -12,6 +12,15 @@ export type Project = {
   year?: string;
   stats?: string;
   githubUrl?: string;
+  playStoreUrl?: string;
+  webAppUrl?: string;
+  appIcon?: string;
+  screenshots?: string[];
+  installs?: string;
+  accounts?: string;
+  activeUsers?: string;
+  rating?: string;
+  keyFeatures?: string[];
   details?: string;
 };
 
@@ -37,7 +46,7 @@ export const profile = {
 
 export const statsMetrics = [
   { label: "Cumulative GPA", value: "3.93", sub: "Out of 4.00 · 8 Semesters", icon: "award" },
-  { label: "Software Projects", value: "8+", sub: "Android & Applied AI", icon: "code" },
+  { label: "Active Student Users", value: "6,000+", sub: "DIU Campus Schedule Ecosystem", icon: "code" },
   { label: "National Hackathon", value: "Top 6", sub: "5th National Data Science Summit", icon: "trophy" },
   { label: "Core Foundation", value: "Kotlin & ML", sub: "Compose, PyTorch & Clean Arch", icon: "cpu" },
 ];
@@ -46,17 +55,43 @@ export const projects: Project[] = [
   {
     slug: "diu-campus-schedule",
     name: "DIU Campus Schedule",
-    category: "ANDROID · CAMPUS LIFE",
+    category: "FLAGSHIP PRODUCTION ANDROID APP · 6K+ USERS",
     domain: "android",
-    summary: "An academic companion for DIU students, bringing class and exam schedules, announcements, and faculty information into an ultra-fast native mobile experience.",
+    summary: "The all-in-one campus ecosystem companion for Daffodil International University. Serves 6,000+ active students and faculty with smart routine management, 30-min class alerts, deadlines tracking, 116+ faculty directory, and offline Room DB persistence.",
     visual: "schedule",
-    technology: ["Kotlin", "Jetpack Compose", "Clean Architecture", "Room", "Hilt"],
+    technology: ["Kotlin", "Jetpack Compose", "Clean Architecture", "Room DB", "Hilt", "Firebase", "Coroutines & Flow", "WorkManager"],
     featured: true,
     year: "2024–2025",
-    stats: "Daily utility for university students",
+    stats: "6,000+ Downloads · 6,000+ Active Students · 4.8★ Rating",
     githubUrl: "https://github.com/marufrayhan606",
-    details: "Built with Kotlin and Jetpack Compose utilizing offline-first caching with Room and modern MVI/MVVM reactive data streams.",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.om.diucampusschedule",
+    webAppUrl: "https://diucampusschedule.web.app/",
+    appIcon: "/images/diu-schedule-icon.png",
+    installs: "6,000+ Downloads",
+    accounts: "6,000+ Active Students",
+    activeUsers: "6,000+ Users",
+    rating: "4.8 ★",
+    screenshots: [
+      "/projects/diu-campus-schedule/Dashboard.png",
+      "/projects/diu-campus-schedule/Class_Routine.png",
+      "/projects/diu-campus-schedule/Class_Notification.png",
+      "/projects/diu-campus-schedule/CR_Announcements.png",
+      "/projects/diu-campus-schedule/Empty_Room.png",
+      "/projects/diu-campus-schedule/Faculty_Info.png",
+    ],
+    keyFeatures: [
+      "Class Routine Engine: Daily & weekly schedules with section/course/teacher filters, PDF export & QR code sharing",
+      "Smart Notifications: Automated background alerts 30 minutes before classes start with room numbers and course codes",
+      "Real-Time Class Updates: Instant alerts on class cancellations, rescheduling & makeup classes managed by CRs",
+      "Deadlines & Task Tracker: Quizzes, assignments, presentations, lab tasks & project milestone countdowns",
+      "CR Announcements & Directory: Pinned critical cohort messages and contact directory across batches and sections",
+      "Exam Routine & Past Questions: Midterm, final, lab performance routines and previous year question papers bank",
+      "Empty Classroom Finder: Real-time vacancy locator across DIU Daffodil Smart City campus buildings & floors",
+      "Faculty Directory & Portals: 116+ searchable teachers plus integrated DIU Student, Teacher, BLC & Hall Portals",
+    ],
+    details: "Co-architected with Ismam Hasan Ovi & Md Maruf Rayhan (SWE-41). Solved the university's legacy 50-page routine PDF chaos by engineering an offline-first Android client and official web companion (https://diucampusschedule.web.app/). Features Room DB caching, reactive Kotlin Flows, background WorkManager notification triggers, Firebase real-time synchronization, and a modern Jetpack Compose UI now powering daily academic schedules for over 6,000 registered university students.",
   },
+
   {
     slug: "sentinel",
     name: "Sentinel",
@@ -249,5 +284,96 @@ export const achievements = [
     type: "participation",
     badge: "ICPC CONTESTANT",
     description: "Participated in the premier global university competitive programming event.",
+  },
+];
+
+export type Certificate = {
+  id: string;
+  title: string;
+  event: string;
+  issuer: string;
+  year: string;
+  badge: string;
+  category: "award" | "hackathon" | "participation";
+  image: string;
+  images?: string[];
+  imageLabels?: string[];
+  caption: string;
+};
+
+export const certificates: Certificate[] = [
+  {
+    id: "ds-summit-2026",
+    title: "6th Place · National Data Hackathon",
+    event: "5th National Data Science Summit 2026",
+    issuer: "Data Science Network & Academic Summit",
+    year: "2026",
+    badge: "6th PLACE AWARD",
+    category: "hackathon",
+    image: "/certificates/data-science-summit-2026.png",
+    images: [
+      "/certificates/data-science-summit-2026.png",
+      "/certificates/data-science-summit-2026_ranking.png",
+    ],
+    imageLabels: [
+      "Official Certificate",
+      "National Hackathon Ranking",
+    ],
+    caption: "Secured 6th place nationwide in the 24-hour predictive modeling data hackathon tackling real-world tabular and multimodal datasets.",
+  },
+  {
+    id: "ds-summit-2024",
+    title: "2nd Runner-Up · Research Poster Presentation",
+    event: "4th National Data Science Summit 2024",
+    issuer: "National Data Summit Committee",
+    year: "2024",
+    badge: "2nd RUNNER-UP",
+    category: "award",
+    image: "/certificates/data-science-summit-2024.png",
+    caption: "Awarded 2nd Runner-Up for research poster on 'AI in Education: Machine Learning Models for Adaptive Student Progression'.",
+  },
+  {
+    id: "codetrap-2024",
+    title: "8th Place · University Division",
+    event: "DIU CodeTrap Programming Contest 2024",
+    issuer: "DIU Department of Software Engineering",
+    year: "2024",
+    badge: "TOP 10 RANK",
+    category: "award",
+    image: "/certificates/codetrap-2024.jpg",
+    caption: "Ranked 8th position solving algorithmic, graph, and optimization problems in university-wide contest.",
+  },
+  {
+    id: "nasa-space-apps-2024",
+    title: "Global Mission Challenge Developer",
+    event: "NASA International Space Apps Challenge 2024",
+    issuer: "NASA Space Apps Organizing Committee",
+    year: "2024",
+    badge: "GLOBAL PARTICIPANT",
+    category: "hackathon",
+    image: "/certificates/nasa-space-apps-2024.jpg",
+    caption: "Engineered the AETHER MARSIS radar subsurface telemetry visualization software for planetary science.",
+  },
+  {
+    id: "icpc-2023",
+    title: "Preliminary Contestant",
+    event: "ICPC Asia Dhaka Regional Preliminary 2023",
+    issuer: "ICPC Asia Regional Council",
+    year: "2023",
+    badge: "ICPC CONTESTANT",
+    category: "participation",
+    image: "/certificates/icpc-2023.jpg",
+    caption: "Competed in the International Collegiate Programming Contest preliminary round testing algorithmic precision.",
+  },
+  {
+    id: "codetrap-2025",
+    title: "Competitive Programming Contestant",
+    event: "DIU CodeTrap Programming Contest 2025",
+    issuer: "DIU SWE Club & Department",
+    year: "2025",
+    badge: "CONTESTANT",
+    category: "participation",
+    image: "/certificates/codetrap-2025.jpg",
+    caption: "Participated in the university division competitive programming championship.",
   },
 ];

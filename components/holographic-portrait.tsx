@@ -2,17 +2,81 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { SparklesIcon, CpuIcon, ActivityIcon, SmartphoneIcon } from "@/components/icons";
+import { SparklesIcon, SmartphoneIcon, CpuIcon } from "@/components/icons";
 
 interface HolographicPortraitProps {
   className?: string;
+  src?: string;
 }
 
-export function HolographicPortrait({ className = "" }: HolographicPortraitProps) {
-  const [activeFilter, setActiveFilter] = useState<"holo" | "neural" | "prism">("holo");
+const DEFAULT_PORTRAIT_CANDIDATES = [
+  "/images/maruf-rayhan.png",
+  "/images/maruf-rayhan.jpg",
+  "/images/maruf-rayhan.webp",
+  "/images/maruf-rayhan.jpeg",
+  "/images/maruf-rayhan.avif",
+  "/images/maruf-rayhan.svg",
+  "/images/maruf-diu-campus.jpg",
+  "/images/maruf-diu-campus.png",
+  "/images/maruf-diu-campus.webp",
+  "/images/profile.png",
+  "/images/profile.jpg",
+  "/images/profile.webp",
+  "/images/portrait.png",
+  "/images/portrait.jpg",
+  "/images/avatar.png",
+  "/images/avatar.jpg",
+];
+
+export function HolographicPortrait({ className = "", src }: HolographicPortraitProps) {
+  const [candidates, setCandidates] = useState<string[]>(() => {
+    if (src) {
+      const base = src.replace(/\.[^/.]+$/, "");
+      return [
+        src,
+        `${base}.png`,
+        `${base}.jpg`,
+        `${base}.webp`,
+        `${base}.jpeg`,
+        `${base}.avif`,
+        `${base}.svg`,
+        ...DEFAULT_PORTRAIT_CANDIDATES,
+      ];
+    }
+    return DEFAULT_PORTRAIT_CANDIDATES;
+  });
+  const [portraitIndex, setPortraitIndex] = useState(0);
+  const [allFailed, setAllFailed] = useState(false);
+
   const [mousePos, setMousePos] = useState({ x: 0, y: 0, normX: 0, normY: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (src) {
+      const base = src.replace(/\.[^/.]+$/, "");
+      setCandidates([
+        src,
+        `${base}.png`,
+        `${base}.jpg`,
+        `${base}.webp`,
+        `${base}.jpeg`,
+        `${base}.avif`,
+        `${base}.svg`,
+        ...DEFAULT_PORTRAIT_CANDIDATES,
+      ]);
+      setPortraitIndex(0);
+      setAllFailed(false);
+    }
+  }, [src]);
+
+  const handleImageError = () => {
+    if (portraitIndex + 1 < candidates.length) {
+      setPortraitIndex((prev) => prev + 1);
+    } else {
+      setAllFailed(true);
+    }
+  };
 
   useEffect(() => {
     const el = containerRef.current;
@@ -47,58 +111,79 @@ export function HolographicPortrait({ className = "" }: HolographicPortraitProps
     };
   }, []);
 
-  const tiltX = isHovered ? mousePos.normY * -10 : 0;
-  const tiltY = isHovered ? mousePos.normX * 10 : 0;
+  const tiltX = isHovered ? mousePos.normY * -6 : 0;
+  const tiltY = isHovered ? mousePos.normX * 6 : 0;
+  const currentPortraitSrc = candidates[portraitIndex] || "/images/maruf-rayhan.jpg";
 
   return (
     <div
       ref={containerRef}
-      className={`hologram-portal-container ${className} ${activeFilter}`}
+      className={`hologram-portal-container ${className}`}
       style={{
-        transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
+        transform: `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`,
       }}
     >
-      {/* 1. Behind-Photo Neural Halo & Rotating Orbit Rings */}
+      {/* Ambient Radial Aura */}
       <div className="portal-halo-layer" aria-hidden="true">
         <div className="halo-orbit-ring ring-primary" />
         <div className="halo-orbit-ring ring-secondary" />
-        <div className="halo-orbit-ring ring-tertiary" />
         <div className="halo-aurora-glow" />
       </div>
 
-      {/* 2. Cyber HUD Telemetry Brackets */}
-      <div className="hud-corner-bracket corner-tl" aria-hidden="true" />
-      <div className="hud-corner-bracket corner-tr" aria-hidden="true" />
-      <div className="hud-corner-bracket corner-bl" aria-hidden="true" />
-      <div className="hud-corner-bracket corner-br" aria-hidden="true" />
-
-      {/* 3. Top Telemetry Bar */}
-      <div className="portal-telemetry-top">
-        <div className="telemetry-id">
-          <span className="telemetry-live-dot" />
-          <span>BIO-ID // MR-606</span>
-        </div>
-        <div className="telemetry-coord">
-          <span>23.876° N · 90.320° E · DIU</span>
-        </div>
-      </div>
-
-      {/* 4. Mask-Blended Portrait Frame */}
+      {/* Portrait Glass Frame */}
       <div className="portal-image-blend-wrapper">
         <div className="portrait-mask-canvas">
-          <Image
-            src="/images/maruf-rayhan.jpg"
-            alt="Md. Maruf Rayhan - Holographic Portrait"
-            fill
-            priority
-            sizes="(max-width: 768px) 90vw, 420px"
-            className="portrait-blended-image"
-          />
+          {!allFailed ? (
+            <Image
+              key={currentPortraitSrc}
+              src={currentPortraitSrc}
+              alt="Md. Maruf Rayhan"
+              fill
+              priority
+              sizes="(max-width: 768px) 90vw, 420px"
+              className="portrait-blended-image"
+              onError={handleImageError}
+              unoptimized={currentPortraitSrc.endsWith(".svg")}
+            />
+          ) : (
+            <div
+              className="portrait-fallback-monogram"
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "linear-gradient(135deg, rgba(20, 24, 39, 0.95), rgba(10, 13, 22, 0.98))",
+                color: "#60a5fa",
+              }}
+            >
+              <div
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  borderRadius: "50%",
+                  border: "2px solid rgba(96, 165, 250, 0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "36px",
+                  fontWeight: 800,
+                  letterSpacing: "2px",
+                  background: "radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, transparent 70%)",
+                  boxShadow: "0 0 30px rgba(96, 165, 250, 0.25)",
+                }}
+              >
+                MR
+              </div>
+              <span style={{ marginTop: "14px", fontSize: "11px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.7 }}>
+                MD. MARUF RAYHAN
+              </span>
+            </div>
+          )}
 
-          {/* Holographic Scanline Sweep */}
-          <div className="holo-scanline" aria-hidden="true" />
-
-          {/* Interactive Mouse-Tracking Specular Lens Flare */}
+          {/* Interactive Specular Sheen */}
           {isHovered && (
             <div
               className="holo-lens-glare"
@@ -110,85 +195,41 @@ export function HolographicPortrait({ className = "" }: HolographicPortraitProps
             />
           )}
 
-          {/* Matrix / Duotone Gradient Filter Overlay */}
+          {/* Subtle Ambient Contrast Overlay */}
           <div className="holo-gradient-filter" aria-hidden="true" />
         </div>
       </div>
 
-      {/* 5. Frequency Waveform Equalizer (Bottom Blend) */}
-      <div className="portal-waveform-blend" aria-hidden="true">
-        {[45, 80, 100, 60, 30, 90, 75, 40, 85, 100, 50, 70, 95, 60, 85, 40, 90, 70, 45, 80].map(
-          (val, idx) => (
-            <span
-              key={idx}
-              className="wave-bar-node"
-              style={{
-                height: `${val}%`,
-                animationDelay: `${idx * 0.06}s`,
-              }}
-            />
-          )
-        )}
-      </div>
-
-      {/* 6. Bottom Bio Card & Filter Switcher */}
-      <div className="portal-meta-dock glass-panel">
-        <div className="dock-person-info">
-          <div className="dock-name-row">
-            <h4>MD. MARUF RAYHAN</h4>
-            <span className="dock-verified-badge">
-              <SparklesIcon className="badge-sparkle-svg" />
-              VERIFIED SWE
-            </span>
-          </div>
-          <p className="dock-tagline">
-            Android Systems Engineer · Data Science Undergraduate
-          </p>
-        </div>
-
-        {/* Interactive Holographic Mode Selector */}
-        <div className="portal-mode-pills">
-          <button
-            type="button"
-            className={`mode-pill-btn ${activeFilter === "holo" ? "is-active" : ""}`}
-            onClick={() => setActiveFilter("holo")}
-            title="Holographic Emerald Glow"
-          >
-            Holo
-          </button>
-          <button
-            type="button"
-            className={`mode-pill-btn ${activeFilter === "neural" ? "is-active" : ""}`}
-            onClick={() => setActiveFilter("neural")}
-            title="Neural Cyan Matrix"
-          >
-            Neural
-          </button>
-          <button
-            type="button"
-            className={`mode-pill-btn ${activeFilter === "prism" ? "is-active" : ""}`}
-            onClick={() => setActiveFilter("prism")}
-            title="Prismatic Violet Flare"
-          >
-            Prism
-          </button>
-        </div>
-      </div>
-
-      {/* 7. Floating Hologram Badges attached to the portrait */}
+      {/* Floating Focus Pills */}
       <div className="portal-floating-tag tag-left glass-panel" aria-hidden="true">
         <SmartphoneIcon className="tag-icon" />
         <div>
-          <b>Android Core</b>
-          <small>Jetpack Compose &amp; MVI</small>
+          <b>Android Native</b>
+          <small>Compose &amp; Clean Architecture</small>
         </div>
       </div>
 
       <div className="portal-floating-tag tag-right glass-panel" aria-hidden="true">
         <CpuIcon className="tag-icon" />
         <div>
-          <b>PyTorch &amp; ML</b>
-          <small>On-Device Inference</small>
+          <b>Applied ML</b>
+          <small>On-Device Intelligence</small>
+        </div>
+      </div>
+
+      {/* Clean Executive Profile Card */}
+      <div className="portal-meta-dock glass-panel">
+        <div className="dock-person-info">
+          <div className="dock-name-row">
+            <h4>MD. MARUF RAYHAN</h4>
+            <span className="dock-verified-badge">
+              <span className="status-live-beacon" />
+              AVAILABLE FOR HIRE
+            </span>
+          </div>
+          <p className="dock-tagline">
+            Software Engineering Student · DIU, Dhaka
+          </p>
         </div>
       </div>
     </div>

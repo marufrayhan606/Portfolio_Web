@@ -243,3 +243,47 @@ export function PlayIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
+      <path d="M5 7.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function PlayStoreIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M3.609 1.814L13.793 12 3.61 22.186a2.373 2.373 0 0 1-.61-1.636V3.45c0-.624.225-1.204.609-1.636zm11.242 11.243l2.42 2.42-12.35 7.13 9.93-9.55zm2.42-2.114l2.87 1.657a1.602 1.602 0 0 1 0 2.8l-2.87 1.657-2.42-2.42 2.42-3.694zM4.92 1.39l12.35 7.13-2.42 2.42-9.93-9.55z" />
+    </svg>
+  );
+}
+
+export function GlobeIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+  );
+}
+
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
+      <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
+      <path d="M7.5 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+
